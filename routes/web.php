@@ -3,8 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+// Smart redirect: authenticated users go to dashboard, guests go to login
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        return redirect('/dashboard');
+    }
+    return redirect('/login');
 });
 
 use App\Models\Product;
@@ -33,8 +37,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::resource('categories', CategoryController::class);
+    // Route::resource('categories', CategoryController::class); // Coming soon
     Route::resource('products', ProductController::class);
+    Route::post('products/{product}/add-stock', [ProductController::class, 'addStock'])->name('products.addStock');
 });
 
 Route::middleware(['auth'])->group(function () {
