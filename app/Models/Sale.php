@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['user_id', 'total_amount', 'paid_amount', 'change_amount'])]
+#[Fillable(['user_id', 'total_amount', 'paid_amount', 'change_amount', 'pos_environment_id'])]
 class Sale extends Model
 {
     /** @use HasFactory<\Database\Factories\SaleFactory> */
@@ -22,5 +22,10 @@ class Sale extends Model
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function posEnvironment(): BelongsTo
+    {
+        return $this->belongsTo(PosEnvironment::class);
     }
 }

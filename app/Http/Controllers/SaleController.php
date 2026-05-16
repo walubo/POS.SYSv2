@@ -10,15 +10,38 @@ use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sales = Sale::with('user')->latest()->paginate(10);
-        return view('sales.index', compact('sales'));
+        $query = Sale::with('user')->where('pos_environment_id', auth()->user()->pos_environment_id)->latest();
+
+        if ($request->filter === 'today') {
+            $query->whereDate('created_at', \Carbon\Carbon::today());
+        } elseif ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        $sales = $query->paginate(10);
+        $dailyTotal = null;
+
+        if ($request->filled('date')) {
+            $dailyTotal = Sale::where('pos_environment_id', auth()->user()->pos_environment_id)
+                ->whereDate('created_at', $request->date)
+                ->sum('total_amount');
+        } elseif ($request->filter === 'today') {
+            $dailyTotal = Sale::where('pos_environment_id', auth()->user()->pos_environment_id)
+                ->whereDate('created_at', \Carbon\Carbon::today())
+                ->sum('total_amount');
+        }
+
+        return view('sales.index', compact('sales', 'dailyTotal'));
     }
 
     public function create()
     {
-        $products = Product::where('stock', '>', 0)->get();
+        $products = Product::where('stock', '>', 0)->where(function($q) {
+            $q->where('pos_environment_id', auth()->user()->pos_environment_id)
+              ->orWhereNull('pos_environment_id');
+        })->get();
         return view('sales.create', compact('products'));
     }
 

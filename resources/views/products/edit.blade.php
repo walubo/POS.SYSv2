@@ -32,6 +32,11 @@
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
+                            
+                            <div class="mt-3">
+                                <x-input-label for="new_category" :value="__('Or Create New Category')" class="text-xs text-gray-500" />
+                                <x-text-input id="new_category" class="block mt-1 w-full text-sm" type="text" name="new_category" :value="old('new_category')" placeholder="e.g. Beverages" />
+                            </div>
                         </div>
 
                         <div>
@@ -49,7 +54,7 @@
                         </div>
 
                         <div>
-                            <x-input-label for="price" :value="__('Price ($)')" />
+                            <x-input-label for="price" :value="__('Price (₱)')" />
                             <x-text-input id="price" class="block mt-1 w-full" type="number" step="0.01" min="0" name="price" :value="old('price', $product->price)" required />
                             <x-input-error :messages="$errors->get('price')" class="mt-2" />
                         </div>

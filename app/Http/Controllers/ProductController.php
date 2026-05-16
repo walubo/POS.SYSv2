@@ -8,20 +8,39 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->get();
+        $query = Product::with('category')->where(function($q) {
+            $q->where('pos_environment_id', auth()->user()->pos_environment_id)
+              ->orWhereNull('pos_environment_id');
+        });
+        
+        if ($request->filter === 'low_stock') {
+            $query->where('stock', '<', 10);
+        }
+        
+        $products = $query->get();
         return view('products.index', compact('products'));
     }
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::whereNull('pos_environment_id')
+            ->orWhere('pos_environment_id', auth()->user()->pos_environment_id)
+            ->get();
         return view('products.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
+        if ($request->filled('new_category')) {
+            $category = Category::create([
+                'name' => $request->new_category,
+                'pos_environment_id' => auth()->user()->pos_environment_id,
+            ]);
+            $request->merge(['category_id' => $category->id]);
+        }
+
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
@@ -31,19 +50,32 @@ class ProductController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        Product::create($request->all());
+        $data = $request->all();
+        $data['pos_environment_id'] = auth()->user()->pos_environment_id;
+
+        Product::create($data);
 
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
     public function edit(Product $product)
     {
-        $categories = Category::all();
+        $categories = Category::whereNull('pos_environment_id')
+            ->orWhere('pos_environment_id', auth()->user()->pos_environment_id)
+            ->get();
         return view('products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, Product $product)
     {
+        if ($request->filled('new_category')) {
+            $category = Category::create([
+                'name' => $request->new_category,
+                'pos_environment_id' => auth()->user()->pos_environment_id,
+            ]);
+            $request->merge(['category_id' => $category->id]);
+        }
+
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',

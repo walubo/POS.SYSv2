@@ -22,12 +22,7 @@
                     <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                         {{ __('Products') }}
                     </x-nav-link>
-                    <div class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-400 dark:text-gray-500 cursor-not-allowed">
-                        {{ __('Categories') }}
-                        <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
-                            Coming Soon
-                        </span>
-                    </div>
+
                     @endif
                 </div>
             </div>
@@ -91,12 +86,7 @@
             <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                 {{ __('Products') }}
             </x-responsive-nav-link>
-            <div class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-400 dark:text-gray-500 cursor-not-allowed">
-                {{ __('Categories') }}
-                <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
-                    Coming Soon
-                </span>
-            </div>
+
             @endif
         </div>
 

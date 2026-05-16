@@ -46,8 +46,8 @@
                                 <tr>
                                     <td class="px-6 py-4 text-sm text-gray-900 dark:text-white font-medium">{{ $item->product->name }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-center">{{ $item->quantity }}</td>
-                                    <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-right">${{ number_format($item->unit_price, 2) }}</td>
-                                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-white font-semibold text-right">${{ number_format($item->subtotal, 2) }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 text-right">₱{{ number_format($item->unit_price, 2) }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-white font-semibold text-right">₱{{ number_format($item->subtotal, 2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -60,19 +60,19 @@
                         <div class="w-full sm:w-72 space-y-3">
                             <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
                                 <span>Subtotal</span>
-                                <span>${{ number_format($sale->total_amount, 2) }}</span>
+                                <span>₱{{ number_format($sale->total_amount, 2) }}</span>
                             </div>
                             <div class="flex justify-between text-xl font-bold text-gray-900 dark:text-white border-t border-gray-200 dark:border-gray-700 pt-3">
                                 <span>Total</span>
-                                <span>${{ number_format($sale->total_amount, 2) }}</span>
+                                <span>₱{{ number_format($sale->total_amount, 2) }}</span>
                             </div>
                             <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
                                 <span>Cash Tendered</span>
-                                <span>${{ number_format($sale->paid_amount, 2) }}</span>
+                                <span>₱{{ number_format($sale->paid_amount, 2) }}</span>
                             </div>
                             <div class="flex justify-between text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900 rounded-lg px-3 py-2">
                                 <span>Change</span>
-                                <span>${{ number_format($sale->change_amount, 2) }}</span>
+                                <span>₱{{ number_format($sale->change_amount, 2) }}</span>
                             </div>
                         </div>
                     </div>

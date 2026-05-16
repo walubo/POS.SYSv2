@@ -65,7 +65,7 @@
                                                     <code class="text-xs font-mono text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 px-1.5 py-0.5 rounded tracking-wider">{{ $product->sku }}</code>
                                                 </div>
                                             @endif
-                                            <p class="text-xl font-bold text-primary-600 dark:text-primary-400">${{ number_format($product->price, 2) }}</p>
+                                            <p class="text-xl font-bold text-primary-600 dark:text-primary-400">₱{{ number_format($product->price, 2) }}</p>
                                             <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
                                                 <span class="{{ $product->stock < 5 ? 'text-red-500 dark:text-red-400 font-semibold' : '' }}">{{ $product->stock }} in stock</span>
                                             </p>
@@ -101,13 +101,13 @@
                             <div class="p-4 border-t border-gray-200 dark:border-gray-700 space-y-4">
                                 <div class="flex justify-between items-center">
                                     <span class="text-lg font-bold text-gray-900 dark:text-white">Total:</span>
-                                    <span class="text-2xl font-bold text-primary-600 dark:text-primary-400">$<span id="cart-total">0.00</span></span>
+                                    <span class="text-2xl font-bold text-primary-600 dark:text-primary-400">₱<span id="cart-total">0.00</span></span>
                                 </div>
 
                                 <div>
                                     <label for="paid_amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cash Tendered</label>
                                     <div class="relative">
-                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 font-bold">$</span>
+                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 font-bold">₱</span>
                                         <input id="paid_amount" type="number" step="0.01" min="0" name="paid_amount"
                                             class="block w-full pl-7 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-primary-500 focus:ring-primary-500 rounded-lg shadow-sm"
                                             placeholder="0.00" oninput="calculateChange()" />
@@ -116,7 +116,7 @@
 
                                 <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-700 rounded-lg px-4 py-3">
                                     <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Change:</span>
-                                    <span class="text-lg font-bold text-green-600 dark:text-green-400">$<span id="change-amount">0.00</span></span>
+                                    <span class="text-lg font-bold text-green-600 dark:text-green-400">₱<span id="change-amount">0.00</span></span>
                                 </div>
 
                                 <button type="submit" id="checkout-btn" disabled
@@ -267,7 +267,7 @@
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-semibold text-gray-900 dark:text-white truncate">${item.name}</p>
                         ${item.sku ? `<p class="text-xs font-mono text-gray-400 dark:text-gray-500">#${item.sku}</p>` : ''}
-                        <p class="text-xs text-gray-500 dark:text-gray-400">$${item.price.toFixed(2)} × ${item.quantity} = <strong>$${subtotal.toFixed(2)}</strong></p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">₱${item.price.toFixed(2)} × ${item.quantity} = <strong>₱${subtotal.toFixed(2)}</strong></p>
                         <input type="hidden" name="items[${index}][product_id]" value="${item.id}">
                         <input type="hidden" name="items[${index}][quantity]" value="${item.quantity}">
                     </div>
@@ -317,7 +317,7 @@
             const paid = parseFloat(document.getElementById('paid_amount').value) || 0;
             if (paid < total) {
                 e.preventDefault();
-                alert(`Cash tendered ($${paid.toFixed(2)}) is less than total ($${total.toFixed(2)}).`);
+                alert(`Cash tendered (₱${paid.toFixed(2)}) is less than total (₱${total.toFixed(2)}).`);
                 return;
             }
             document.getElementById('checkout-btn').disabled = true;
