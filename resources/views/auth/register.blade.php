@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="mb-6">
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Create Account</h2>
-        <p class="text-gray-600 dark:text-gray-400 text-sm">Sign up to get started with RetailFlow</p>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">Sign up to get started with Core POS</p>
     </div>
 
     <form method="POST" action="{{ route('register') }}" class="space-y-5">

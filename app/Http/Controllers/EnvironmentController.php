@@ -82,4 +82,20 @@ class EnvironmentController extends Controller
 
         return back()->with('error', 'Could not regenerate code.');
     }
+
+    public function kickEmployee(\App\Models\User $user)
+    {
+        if (auth()->user()->role !== 'admin') {
+            return back()->with('error', 'Unauthorized.');
+        }
+
+        if ($user->pos_environment_id !== auth()->user()->pos_environment_id) {
+            return back()->with('error', 'User is not in your environment.');
+        }
+
+        $user->pos_environment_id = null;
+        $user->save();
+
+        return back()->with('success', 'Employee removed from environment.');
+    }
 }

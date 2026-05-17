@@ -4,7 +4,7 @@
 
     <div class="mb-6">
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Welcome Back</h2>
-        <p class="text-gray-600 dark:text-gray-400 text-sm">Sign in to your RetailFlow account to continue</p>
+        <p class="text-gray-600 dark:text-gray-400 text-sm">Sign in to your Core POS account to continue</p>
     </div>
 
     <form method="POST" action="{{ route('login') }}" class="space-y-5">
