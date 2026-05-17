@@ -16,139 +16,138 @@
 
         <style>
             /* MAIN BACKGROUND */
-            .animated-background {
+            .animated-background{
                 position:fixed;
                 inset:0;
                 background:
-                    radial-gradient(circle at top left, rgba(0,140,255,0.15), transparent 30%),
-                    radial-gradient(circle at bottom right, rgba(0,90,255,0.18), transparent 35%),
+                    radial-gradient(circle at top left, rgba(0,110,255,0.15), transparent 30%),
+                    radial-gradient(circle at bottom right, rgba(0,80,255,0.15), transparent 35%),
                     linear-gradient(135deg,#020817,#071427,#020817);
                 overflow:hidden;
                 z-index:-1;
             }
 
-            /* SMOOTH FLOWING BLOBS */
-            .bg-blob{
-                position:absolute;
-                border-radius:50%;
-                filter:blur(80px);
-                opacity:0.5;
-                animation-timing-function:ease-in-out;
-                animation-iteration-count:infinite;
-            }
-
-            .blob1{
-                width:500px;
-                height:500px;
-                background:#0066ff;
-                top:-120px;
-                left:-120px;
-                animation:float1 18s infinite alternate;
-            }
-
-            .blob2{
-                width:450px;
-                height:450px;
-                background:#00aaff;
-                bottom:-100px;
-                right:-120px;
-                animation:float2 22s infinite alternate;
-            }
-
-            .blob3{
-                width:300px;
-                height:300px;
-                background:#0044ff;
-                top:40%;
-                left:50%;
-                transform:translate(-50%,-50%);
-                opacity:0.25;
-                animation:pulse 12s infinite ease-in-out;
-            }
-
-            /* FLOWING LIGHT WAVES */
+            /* GLOWING WAVES */
             .bg-wave{
                 position:absolute;
-                width:200%;
-                height:200px;
-                border-radius:40%;
-                opacity:0.08;
-                filter:blur(10px);
-                background:linear-gradient(90deg, transparent, #1da1ff, transparent);
-            }
-
-            .wave1{ top:20%; left:-50%; animation:waveMove 20s linear infinite; }
-            .wave2{ bottom:15%; left:-50%; animation:waveMoveReverse 26s linear infinite; }
-
-            /* FLOATING PARTICLES */
-            .bg-particle{
-                position:absolute;
-                width:4px;
-                height:4px;
+                width:160%;
+                height:300px;
                 border-radius:50%;
-                background:#4db8ff;
-                opacity:0.4;
-                animation:particleFloat linear infinite;
+                filter:blur(2px);
+                opacity:0.9;
             }
 
-            .p1{ left:10%; animation-duration:14s; animation-delay:0s; }
-            .p2{ left:25%; animation-duration:18s; animation-delay:2s; }
-            .p3{ left:40%; animation-duration:16s; animation-delay:1s; }
-            .p4{ left:60%; animation-duration:20s; animation-delay:3s; }
-            .p5{ left:75%; animation-duration:15s; animation-delay:1s; }
-            .p6{ left:90%; animation-duration:19s; animation-delay:4s; }
+            /* TOP WAVE */
+            .wave-top{
+                top:-50px;
+                left:-20%;
+                border-top:2px solid #1d7dff;
+                animation:waveTop 12s ease-in-out infinite alternate;
+            }
+
+            /* BOTTOM WAVE */
+            .wave-bottom{
+                bottom:-100px;
+                left:-10%;
+                border-top:3px solid #005eff;
+                animation:waveBottom 14s ease-in-out infinite alternate;
+            }
+
+            /* SECONDARY SOFT WAVES */
+            .wave-soft{
+                position:absolute;
+                width:180%;
+                height:350px;
+                border-radius:50%;
+                border-top:1px solid rgba(0,140,255,0.15);
+                filter:blur(1px);
+            }
+
+            .soft1{ top:-120px; left:-25%; animation:softMove1 18s ease-in-out infinite alternate; }
+            .soft2{ bottom:-150px; left:-30%; animation:softMove2 20s ease-in-out infinite alternate; }
+
+            /* FLOWING GLOW */
+            .bg-glow{
+                position:absolute;
+                width:500px;
+                height:500px;
+                border-radius:50%;
+                background:radial-gradient(circle,#006eff55,transparent 70%);
+                filter:blur(40px);
+            }
+
+            .glow1{ top:-100px; left:-100px; animation:floatGlow1 16s ease-in-out infinite alternate; }
+            .glow2{ bottom:-120px; right:-100px; animation:floatGlow2 18s ease-in-out infinite alternate; }
+
+            /* DOTS */
+            .bg-dots{
+                position:absolute;
+                width:180px;
+                height:180px;
+                background-image:radial-gradient(#1da1ff 1.5px, transparent 1.5px);
+                background-size:18px 18px;
+                opacity:0.35;
+            }
+
+            .dots1{ top:30px; left:30px; animation:fadeDots 5s infinite alternate; }
+            .dots2{ bottom:40px; right:40px; animation:fadeDots 6s infinite alternate; }
 
             /* ANIMATIONS */
-            @keyframes float1{
-                0%{ transform:translate(0,0) scale(1); }
-                100%{ transform:translate(120px,80px) scale(1.15); }
+            @keyframes waveTop{
+                0%{ transform:translateX(0px) translateY(0px); }
+                50%{ transform:translateX(30px) translateY(10px); }
+                100%{ transform:translateX(-20px) translateY(-10px); }
             }
 
-            @keyframes float2{
-                0%{ transform:translate(0,0) scale(1); }
-                100%{ transform:translate(-100px,-60px) scale(1.1); }
+            @keyframes waveBottom{
+                0%{ transform:translateX(0px) translateY(0px); }
+                50%{ transform:translateX(-40px) translateY(-10px); }
+                100%{ transform:translateX(20px) translateY(15px); }
             }
 
-            @keyframes pulse{
-                0%,100%{ transform:translate(-50%,-50%) scale(1); }
-                50%{ transform:translate(-50%,-50%) scale(1.2); }
+            @keyframes softMove1{
+                0%{ transform:translateX(0px); }
+                100%{ transform:translateX(-40px); }
             }
 
-            @keyframes waveMove{
-                0%{ transform:translateX(0); }
-                100%{ transform:translateX(-25%); }
+            @keyframes softMove2{
+                0%{ transform:translateX(0px); }
+                100%{ transform:translateX(50px); }
             }
 
-            @keyframes waveMoveReverse{
-                0%{ transform:translateX(-25%); }
-                100%{ transform:translateX(0); }
+            @keyframes floatGlow1{
+                0%{ transform:translate(0,0); }
+                100%{ transform:translate(80px,40px); }
             }
 
-            @keyframes particleFloat{
-                0%{ transform:translateY(100vh) scale(0); opacity:0; }
-                10%{ opacity:0.4; }
-                100%{ transform:translateY(-10vh) scale(1); opacity:0; }
+            @keyframes floatGlow2{
+                0%{ transform:translate(0,0); }
+                100%{ transform:translate(-60px,-30px); }
+            }
+
+            @keyframes fadeDots{
+                0%{ opacity:0.15; }
+                100%{ opacity:0.4; }
             }
         </style>
     </head>
     <body class="font-sans text-gray-900 dark:text-gray-100 antialiased">
         <div class="animated-background">
-            <!-- BLOBS -->
-            <div class="bg-blob blob1"></div>
-            <div class="bg-blob blob2"></div>
-            <div class="bg-blob blob3"></div>
+            <!-- GLOW -->
+            <div class="bg-glow glow1"></div>
+            <div class="bg-glow glow2"></div>
 
             <!-- WAVES -->
-            <div class="bg-wave wave1"></div>
-            <div class="bg-wave wave2"></div>
+            <div class="bg-wave wave-top"></div>
+            <div class="bg-wave wave-bottom"></div>
 
-            <!-- PARTICLES -->
-            <div class="bg-particle p1"></div>
-            <div class="bg-particle p2"></div>
-            <div class="bg-particle p3"></div>
-            <div class="bg-particle p4"></div>
-            <div class="bg-particle p5"></div>
-            <div class="bg-particle p6"></div>
+            <!-- SOFT WAVES -->
+            <div class="wave-soft soft1"></div>
+            <div class="wave-soft soft2"></div>
+
+            <!-- DOTS -->
+            <div class="bg-dots dots1"></div>
+            <div class="bg-dots dots2"></div>
         </div>
 
         <div class="min-h-screen flex flex-col justify-center items-center px-4 relative z-10">
