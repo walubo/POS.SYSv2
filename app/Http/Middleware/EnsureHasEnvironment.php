@@ -15,6 +15,11 @@ class EnsureHasEnvironment
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Skip environment check in demo mode — demo users always have an environment
+        if (session('demo_mode')) {
+            return $next($request);
+        }
+
         if (auth()->check() && !auth()->user()->pos_environment_id) {
             // Check if they are trying to access the environment routes to avoid redirect loops
             if ($request->routeIs('environment.*') || $request->routeIs('logout')) {

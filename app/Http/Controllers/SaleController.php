@@ -88,6 +88,7 @@ class SaleController extends Controller
                 'total_amount' => $totalAmount,
                 'paid_amount' => $request->paid_amount,
                 'change_amount' => $request->paid_amount - $totalAmount,
+                'pos_environment_id' => auth()->user()->pos_environment_id,
             ]);
 
             foreach ($orderItemsData as $itemData) {

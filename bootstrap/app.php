@@ -21,6 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
             '/order-items',
         ]);
 
+        $middleware->web(append: [
+            \App\Http\Middleware\DemoModeMiddleware::class,
+        ]);
+
         // This registers your custom Role middleware
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,

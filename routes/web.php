@@ -2,6 +2,11 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DemoController;
+
+// Demo Mode Entry/Exit Routes
+Route::get('/demo/enter', [DemoController::class, 'enter'])->name('demo.enter');
+Route::get('/demo/leave', [DemoController::class, 'leave'])->name('demo.leave');
 
 // Smart redirect: authenticated users go to dashboard, guests go to login
 Route::get('/', function () {
@@ -10,6 +15,7 @@ Route::get('/', function () {
     }
     return redirect('/login');
 });
+
 
 use App\Models\Product;
 use App\Models\Sale;
@@ -26,6 +32,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/environment/store', [EnvironmentController::class, 'store'])->name('environment.store');
     Route::get('/environment/join', [EnvironmentController::class, 'join'])->name('environment.join');
     Route::post('/environment/join', [EnvironmentController::class, 'processJoin'])->name('environment.processJoin');
+    
+    // Auth-only Demo actions
+    Route::post('/demo/update-names', [DemoController::class, 'updateNames'])->name('demo.updateNames');
+    Route::get('/demo/simulate', [DemoController::class, 'simulate'])->name('demo.simulate');
+    Route::get('/demo/reset', [DemoController::class, 'reset'])->name('demo.reset');
+    Route::post('/demo/add-employee', [DemoController::class, 'addEmployee'])->name('demo.addEmployee');
 });
 
 // Routes requiring an environment
@@ -65,6 +77,7 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\EnsureHasEnvironment
     Route::middleware(['role:admin'])->group(function () {
         Route::resource('products', ProductController::class);
         Route::post('products/{product}/add-stock', [ProductController::class, 'addStock'])->name('products.addStock');
+        Route::resource('categories', CategoryController::class);
     });
 
     Route::get('sales', [SaleController::class, 'index'])->name('sales.index');

@@ -15,6 +15,11 @@ class PosTest extends TestCase
     public function test_admin_can_access_categories()
     {
         $admin = User::factory()->create(['role' => 'admin']);
+        $environment = \App\Models\PosEnvironment::create([
+            'admin_id' => $admin->id,
+            'join_code' => '123456',
+        ]);
+        $admin->update(['pos_environment_id' => $environment->id]);
 
         $response = $this->actingAs($admin)->get('/categories');
 
@@ -23,7 +28,15 @@ class PosTest extends TestCase
 
     public function test_cashier_cannot_access_categories()
     {
-        $cashier = User::factory()->create(['role' => 'cashier']);
+        $admin = User::factory()->create(['role' => 'admin']);
+        $environment = \App\Models\PosEnvironment::create([
+            'admin_id' => $admin->id,
+            'join_code' => '123456',
+        ]);
+        $cashier = User::factory()->create([
+            'role' => 'cashier',
+            'pos_environment_id' => $environment->id,
+        ]);
 
         $response = $this->actingAs($cashier)->get('/categories');
 
@@ -32,13 +45,26 @@ class PosTest extends TestCase
 
     public function test_can_process_sale()
     {
-        $cashier = User::factory()->create(['role' => 'cashier']);
-        $category = Category::create(['name' => 'Test Cat']);
+        $admin = User::factory()->create(['role' => 'admin']);
+        $environment = \App\Models\PosEnvironment::create([
+            'admin_id' => $admin->id,
+            'join_code' => '123456',
+        ]);
+        $cashier = User::factory()->create([
+            'role' => 'cashier',
+            'pos_environment_id' => $environment->id,
+        ]);
+
+        $category = Category::create([
+            'name' => 'Test Cat',
+            'pos_environment_id' => $environment->id,
+        ]);
         $product = Product::create([
             'category_id' => $category->id,
             'name' => 'Test Product',
             'price' => 100,
-            'stock' => 10
+            'stock' => 10,
+            'pos_environment_id' => $environment->id,
         ]);
 
         $response = $this->actingAs($cashier)->post('/sales', [
@@ -49,7 +75,7 @@ class PosTest extends TestCase
         ]);
 
         $response->assertRedirect('/sales');
-        $this->assertDatabaseHas('sales', ['total_amount' => 200]);
+        $this->assertDatabaseHas('sales', ['total_amount' => 200, 'pos_environment_id' => $environment->id]);
         $this->assertEquals(8, $product->fresh()->stock);
     }
 }
